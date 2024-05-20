@@ -38,9 +38,43 @@ const writeCounter = (count, callback) => {
 
 // Public API - Fix this function //////////////////////////////////////////////
 
-exports.getNextUniqueId = () => {
-  counter = counter + 1;
-  return zeroPaddedNumber(counter);
+// Your first goal is to save the current state of the counter to the hard drive, so it's persisted between server restarts.
+/*
+func(null,
+input- num
+-output- "num"
+//reads number
+//callbck func that pullls out current counter value
+cb must take 2 aruments, data is contents of file
+*/
+
+
+
+exports.getNextUniqueId = (callback) => {
+//  run function
+//  success ? return next UID : throw err
+//  get current UID
+//  use readCounter to get counter
+
+  //  num++
+  //  use writecounter to write result to file
+  //  convert back toStr
+  //  return str
+
+  readCounter(function(err, counter) {
+    if (err) {
+      console.log('Error reading counter');
+    } else {
+      counter++;
+      writeCounter(counter, function(err, newCount) {
+        if (err) {
+          callback(err, null);
+        } else {
+          callback(err, newCount);
+        }
+      });
+    }
+  });
 };
 
 

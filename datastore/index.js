@@ -8,22 +8,20 @@ var items = {};
 // Public API - Fix these CRUD functions ///////////////////////////////////////
 
 exports.create = (text, callback) => {
-  var id = counter.getNextUniqueId();
-  //items[id] = text;
-  if (!fs.existsSync(exports.dataDir)) {
-    fs.mkdirSync(exports.dataDir);
-  }
-
-  var newFile = fs.mkdirSync(path.join(exports.dataDir, `${id}.txt`));
-
-  fs.writeFile(newFile, text, (err) => {
+  counter.getNextUniqueId(function(err, id) {
     if (err) {
-      throw ('error writing counter');
+      console.log('Error getting id');
     } else {
-      callback(null, { id, text });
+      var newFile = path.join(exports.dataDir, `${id}.txt`);
+      fs.writeFile(newFile, text, (err) => {
+        if (err) {
+          throw ('error writing text');
+        } else {
+          callback(null, { id, text });
+        }
+      });
     }
   });
-
 };
 
 exports.readAll = (callback) => {

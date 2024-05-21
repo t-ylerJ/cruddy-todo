@@ -25,11 +25,31 @@ exports.create = (text, callback) => {
 };
 
 exports.readAll = (callback) => {
-  var data = _.map(items, (text, id) => {
-    return { id, text };
+  fs.readdir(exports.dataDir, (err, files) => {
+    if (err) {
+      console.log('no files');
+    } else {
+      var data = files.map(function(file) {
+        var id = file.split('.')[0];
+        var text = fs.readFileSync(path.join(exports.dataDir, file));
+        var obj = {};
+        obj.id = id;
+        obj.text = text;
+        return obj;
+      });
+      callback(null, data);
+    }
   });
-  callback(null, data);
 };
+// let myData;
+// exports.readAll(function(err, data) {
+//   if (err) {
+//     console.log('error');
+//   } else {
+//     myData = data;
+//   }
+// });
+// console.log(myData);
 
 exports.readOne = (id, callback) => {
   var text = items[id];

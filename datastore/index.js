@@ -74,13 +74,7 @@ exports.update = (id, text, callback) => {
     }
   });
 };
-// var item = items[id];
-// if (!item) {
-//   callback(new Error(`No item with id: ${id}`));
-// } else {
-//   items[id] = text;
-//   callback(null, { id, text });
-// }
+
 
 
 exports.delete = (id, callback) => {
